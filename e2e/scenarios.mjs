@@ -9,7 +9,9 @@ import { fileURLToPath } from 'node:url'
 import { chromium } from 'playwright-core'
 
 const PORT = 4179
-const BASE = `http://localhost:${PORT}/site/members`
+// يطابق VITE_BASE_PATH المستخدم في البناء (الافتراضي جذر النطاق)
+const BASE_PATH = (process.env.VITE_BASE_PATH ?? '/').trim().replace(/^\/+|\/+$/g, '')
+const BASE = `http://localhost:${PORT}${BASE_PATH ? `/${BASE_PATH}` : ''}`
 const SHOTS = new URL('./screenshots/', import.meta.url)
 mkdirSync(SHOTS, { recursive: true })
 
@@ -121,7 +123,7 @@ await step('البحث الذكي + حالة عدم وجود نتائج', async 
 await step('السيناريو 3: فتح ملف عضو والتحقق من رابط LinkedIn الآمن', async () => {
   await waitCards()
   await page.getByRole('link', { name: 'سارة العتيبي', exact: true }).click()
-  await page.waitForURL(/\/site\/members\/sarah-alotaibi$/)
+  await page.waitForURL(/\/sarah-alotaibi$/)
   await page.getByRole('heading', { level: 1, name: 'سارة العتيبي' }).waitFor()
   const li = page.getByRole('link', { name: /الملف المهني على LinkedIn/ })
   assert((await li.getAttribute('target')) === '_blank', 'target=_blank')

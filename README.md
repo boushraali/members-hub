@@ -8,11 +8,18 @@
 
 ```bash
 npm install
-npm run dev          # http://localhost:5173/site/members/
+npm run dev          # http://localhost:5173/  (أو /site/members/ مع VITE_BASE_PATH=/site/members/)
 npm test             # 41 اختبارًا: منطق الأعمال + السيناريوهات + الأمان
 npm run build
 npm run e2e          # 16 سيناريو على متصفح Edge حقيقي (يتطلب build) + لقطات في e2e/screenshots
 ```
+
+### مسار النشر
+
+يُحدَّد من متغير واحد `VITE_BASE_PATH` (الافتراضي `/`)، ويُشتق منه مسار ملفات `assets/` و`basename` الخاص بالموجّه تلقائيًا:
+
+- **Vercel (جذر النطاق):** لا حاجة لأي إعداد. ملف [vercel.json](vercel.json) يعيد توجيه المسارات الداخلية (`/admin`، `/{slug}`) إلى `index.html` عند تحديث الصفحة.
+- **موقع الجمعية:** `VITE_BASE_PATH=/site/members/ npm run build`، مع إعداد الخادم ليعيد أي مسار تحت `/site/members/` إلى `index.html`.
 
 يوجد شريط أصفر أعلى الصفحة **«المعاينة بصفة»** للتبديل بين: زائر، وعدة أعضاء بحالات مختلفة (منشور، بلا ملف، غير مكتمل، مرفوض، عضوية منتهية)، ومشرف الدليل. التعديلات تُحفظ في متصفحك، ويعيدها زر «إعادة ضبط البيانات» إلى حالتها الأولى.
 

@@ -10,9 +10,12 @@ try {
   /* تجاهل */
 }
 
+// يُشتق من base في vite.config.ts: "/" ← "" (جذر النطاق)، "/site/members/" ← "/site/members"
+const basename = import.meta.env.BASE_URL.replace(/\/+$/, '')
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter basename="/site/members">
+    <BrowserRouter basename={basename}>
       <App />
     </BrowserRouter>
   </StrictMode>,
