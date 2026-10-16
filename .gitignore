@@ -3,3 +3,8 @@ dist
 *.tsbuildinfo
 .env.local
 e2e/screenshots/FAIL-*.png
+.env
+.env.*
+!.env.example
+
+*.log
